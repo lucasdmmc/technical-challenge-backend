@@ -8,5 +8,6 @@ const categoriesRoutes = Router();
 categoriesRoutes.get("/", categoriesController.index)
 categoriesRoutes.get("/:id", categoriesController.show)
 categoriesRoutes.post("/new", categoriesController.create)
+categoriesRoutes.delete("/:id", categoriesController.delete)
 
 module.exports = categoriesRoutes;

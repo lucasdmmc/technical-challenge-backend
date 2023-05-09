@@ -44,6 +44,13 @@ class CategoriesController {
       return response.status(400).json({ error: err.message });
     }
   }
+  async delete(request, response) {
+    const { id } = request.params;
+
+    await knex('categories').where({ id }).delete();
+
+    return response.status(204).send();
+  }
 }
 
 module.exports = CategoriesController;
