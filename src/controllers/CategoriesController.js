@@ -32,13 +32,17 @@ class CategoriesController {
   }
 
   async show(request, response) {
-    const { id } = request.params;
-
-    // Faz uma consulta no banco de dados para buscar o registro pelo id
-    const category = await knex("categories").where({ id }).first();
-
-    // Retorna o registro encontrado
-    return response.json(category);
+    try {
+      const { id } = request.params;
+  
+      // Faz uma consulta no banco de dados para buscar o registro pelo id
+      const category = await knex("categories").where({ id }).first();
+  
+      // Retorna o registro encontrado
+      return response.json({ category });
+    } catch (err) {
+      return response.status(400).json({ error: err.message });
+    }
   }
 }
 

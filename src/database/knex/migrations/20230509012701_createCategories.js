@@ -1,7 +1,8 @@
 exports.up = knex => knex.schema.createTable("categories", table => {
-  table.increments("id");
-  table.text("name")
+  table.increments("id").primary();
+  table.string("name").notNullable();
 })
 
-exports.down = knex => knex.schema.createTable("categories");
-
+exports.down = function(knex) {
+  return knex.schema.dropTable("categories");
+};
