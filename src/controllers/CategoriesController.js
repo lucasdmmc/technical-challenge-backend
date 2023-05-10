@@ -44,12 +44,35 @@ class CategoriesController {
       return response.status(400).json({ error: err.message });
     }
   }
+
   async delete(request, response) {
     const { id } = request.params;
 
     await knex('categories').where({ id }).delete();
 
     return response.status(204).send();
+  }
+
+  async update(request, response) {
+    try {
+      const { name } = request.body;
+      console.log(name);
+      const { id } = request.params;
+      
+      const categoryExists = await knex('categories').where({ id }).first();
+        
+      if (!categoryExists) {
+        return response.status(404).json({ error: "Category not found" });
+      }
+    
+      await knex('categories').where({ id }).update({ name });
+    
+      return response.status(200).json({ message: "Category updated successfully" });
+    
+    } catch (error) {
+      console.error(error);
+      return response.sendStatus(500);
+    }
   }
 }
 
