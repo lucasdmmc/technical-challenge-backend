@@ -19,7 +19,6 @@ class ProductsController {
       // Retorna a categoria recém-criada
       return response.json({ product });
     } catch (err) {
-      // Captura o erro e retorna uma mensagem de erro
       return response.status(400).json({ error: err.message });
     }
   }
