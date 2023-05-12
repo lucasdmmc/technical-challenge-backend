@@ -1,22 +1,19 @@
 const knex = require("../database/knex");
-const AppError = require("../utils/AppError")
+const AppError = require("../utils/AppError");
+
 class ProductsController {
   async create(request, response) {
     const { name, category, price } = request.body;
   
     try {
-      // Verifica se a categoria já existe
       const productExists = await knex('products').where({ name, category, price }).first();
   
       if (productExists) {
-        // Dispara um erro caso a categoria já exista
         throw new AppError("Product already exists");
       }
   
-      // Insere uma nova categoria no banco de dados
       const product = await knex('products').insert({ name, category, price }).returning(['id', 'name', "category", 'price']);
       
-      // Retorna a categoria recém-criada
       return response.json({ product });
     } catch (err) {
       return response.status(400).json({ error: err.message });
@@ -32,11 +29,9 @@ class ProductsController {
   async show(request, response) {
     try {
       const { id } = request.params;
-  
-      // Faz uma consulta no banco de dados para buscar o registro pelo id
+
       const product = await knex("products").where({ id }).first();
-  
-      // Retorna o registro encontrado
+
       return response.json({ product });
     } catch (err) {
       return response.status(400).json({ error: err.message });

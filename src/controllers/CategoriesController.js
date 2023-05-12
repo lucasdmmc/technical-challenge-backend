@@ -3,24 +3,18 @@ const AppError = require("../utils/AppError");
 
 class CategoriesController {
   async create(request, response) {
-    const { name } = request.body;
-  
     try {
-      // Verifica se a categoria já existe
+      const { name } = request.body;
       const categoryExists = await knex('categories').where({ name }).first();
   
       if (categoryExists) {
-        // Dispara um erro caso a categoria já exista
         throw new AppError("Category already exists");
       }
-  
-      // Insere uma nova categoria no banco de dados
+
       const category = await knex('categories').insert({ name }).returning(['id', 'name']);
       
-      // Retorna a categoria recém-criada
       return response.json({ category });
     } catch (err) {
-      // Captura o erro e retorna uma mensagem de erro
       return response.status(400).json({ error: err.message });
     }
   }
@@ -35,10 +29,8 @@ class CategoriesController {
     try {
       const { id } = request.params;
   
-      // Faz uma consulta no banco de dados para buscar o registro pelo id
       const category = await knex("categories").where({ id }).first();
   
-      // Retorna o registro encontrado
       return response.json({ category });
     } catch (err) {
       return response.status(400).json({ error: err.message });
@@ -56,7 +48,6 @@ class CategoriesController {
   async update(request, response) {
     try {
       const { name } = request.body;
-      console.log(name);
       const { id } = request.params;
       
       const categoryExists = await knex('categories').where({ id }).first();
