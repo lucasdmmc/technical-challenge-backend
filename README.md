@@ -37,3 +37,6 @@ Starting the server
   npm run start
 ```
 
+#### Here you can have access to the frontend
+
+[Frontend](https://github.com/lucasdmmc/technical-challenge-frontend)
